@@ -1,0 +1,30 @@
+name: quest-journal
+recipe: laravel
+config:
+    via: nginx
+    php: "8.2"
+    database: postgres
+    webroot: public
+services:
+    appserver:
+        type: php:8.2
+        composer_version: 2-latest
+        composer:
+            phpunit/phpunit: ^10
+    database:
+      creds:
+        database: quest_journal
+    node:
+      type: node:18
+tooling:
+    phpunit:
+        service: appserver
+        description: Run PHP Unit tests in Laravel
+        cmd: php vendor/bin/phpunit
+    pest:
+      service: appserver
+      description: PHPUnit wrapper to make life better
+      cmd: vendor/bin/pest
+    npm:
+      service: node
+      cmd: npm
